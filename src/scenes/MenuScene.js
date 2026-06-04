@@ -13,7 +13,7 @@ export default class MenuScene extends Phaser.Scene {
     this.cameras.main.fadeIn(500, 0, 0, 0);
 
     if (this.textures.exists('menu_bg')) {
-      this.add.image(640, 360, 'menu_bg').setAlpha(0.7);
+      this.add.image(640, 360, 'menu_bg').setDisplaySize(1280, 720).setAlpha(0.7);
     }
     this.add.rectangle(640, 360, 1280, 720, 0x1a1612, 0.35);
 
