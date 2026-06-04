@@ -20,7 +20,7 @@ export const endings = {
   a_culpable: {
     title: 'Ruta A — El Precio',
     description: 'El trato fue justo. La culpa no entiende de justicia.',
-    text: 'Entraste a Nueva Tenochtitlán. Las calles limpias, el aire filtrado.\n\nAhora sos uno de ellos.\n\nPero en las noches, cuando el viento trae el olor de la Zona Costera, te preguntás qué perdiste.\n\nEl trato fue justo. La culpa no entiende de justicia.',
+    text: 'Entraste a Nueva Tenochtitlán. Las calles limpias, el aire filtrado.\n\nAhora eres uno de ellos.\n\nPero en las noches, cuando el viento trae el olor de la Zona Costera, te preguntas qué perdiste.\n\nEl trato fue justo. La culpa no entiende de justicia.',
   },
   b_vendido: {
     title: 'Ruta B — Vendido',
@@ -30,7 +30,7 @@ export const endings = {
   b_justo: {
     title: 'Ruta B — El Justo',
     description: 'La Zona Costera no olvida a los suyos.',
-    text: 'Negociaste hasta el final. No por vos — por ellos.\n\nLos mineros recibieron agua, médicos, promesas. El gobierno cumplió.\n\nPero el precio de la justicia es alto. El agente no te dejó ir.\n\nEn una cuneta de la Zona Costera, los tuyos te recordarán.\n\nA veces, eso es suficiente.',
+    text: 'Negociaste hasta el final. No por ti — por ellos.\n\nLos mineros recibieron agua, médicos, promesas. El gobierno cumplió.\n\nPero el precio de la justicia es alto. El agente no te dejó ir.\n\nEn una cuneta de la Zona Costera, los tuyos te recordarán.\n\nA veces, eso es suficiente.',
   },
   c_salvador: {
     title: 'Ruta C — La Semilla',
@@ -49,19 +49,19 @@ export const story = {
     bg: 'bg_mercado',
     scene: 'Callejón del Cobre — Zona Costera, 2080',
     lines: [
-      { speaker: null, text: 'El cielo ya no tiene color. Solo capas de smog y el resplandor naranja de una ciudad que no es para vos.' },
-      { speaker: null, text: 'Tu puesto en el Callejón del Cobre es un desastre de cables, piezas robadas y tecnología sin sello. Sos el que consigue lo imposible.' },
+      { speaker: null, text: 'El cielo ya no tiene color. Solo capas de smog y el resplandor naranja de una ciudad que no es para ti.' },
+      { speaker: null, text: 'Tu puesto en el Callejón del Cobre es un desastre de cables, piezas robadas y tecnología sin sello. Eres el que consigue lo imposible.' },
       { speaker: null, text: 'Nueva Tenochtitlán brilla arriba. Abajo, en la Zona Costera, el polvo se mezcla con la lluvia ácida y la gente sobrevive como puede.' },
-      { speaker: null, text: 'Llevas años acá. No tenés nombre en los registros. Pero en el mercado negro, {nombre} es suficiente.' },
+      { speaker: null, text: 'Llevas años acá. No tienes nombre en los registros. Pero en el mercado negro, {nombre} es suficiente.' },
       { speaker: null, text: 'Pasos sobre el concreto mojado. Martín Vargas entra sin saludar, la ropa cara pero gastada.' },
       { speaker: 'Martín', text: 'Necesito tecnología militar. Inhibidores de señal, armas electrónicas. Mi padre va a tomar la ciudad.' },
-      { speaker: 'Martín', text: 'Necesitamos a alguien sin historial. Alguien que no le importe a nadie. Alguien como vos.' },
+      { speaker: 'Martín', text: 'Necesitamos a alguien sin historial. Alguien que no le importe a nadie. Alguien como tú.' },
       { speaker: null, text: 'Detrás de él, un letrero de neón parpadea entre el polvo y el smog.' },
     ],
     choices: [
-      { text: 'Ayudar a los Vargas — Ruta A', nextNode: 'A1_reunion', route: 'A' },
-      { text: 'Vender la información al gobierno — Ruta B', nextNode: 'B1_gobierno', route: 'B' },
-      { text: 'Rechazar a Martín — mantenerte al margen — Ruta C', nextNode: 'C1_represalias', route: 'C' },
+      { text: 'Ayudar a los Vargas', nextNode: 'A1_reunion', route: 'A' },
+      { text: 'Vender la información al gobierno', nextNode: 'B1_gobierno', route: 'B' },
+      { text: 'Rechazar a Martín — mantenerte al margen', nextNode: 'C1_represalias', route: 'C' },
     ],
   },
 
@@ -73,9 +73,9 @@ export const story = {
     lines: [
       { speaker: null, text: 'No hay mansión. No hay lujo. Solo un departamento pequeño en un edificio de concreto, con un foco que parpadea y cables sueltos en las paredes.' },
       { speaker: null, text: 'Valeria te recibe con una sonrisa medida. Viste ropa barata, pero su mirada sigue siendo la de alguien que dio órdenes.' },
-      { speaker: 'Valeria', text: 'Martín dice que sos útil. Yo necesito verte a los ojos para decidir.' },
+      { speaker: 'Valeria', text: 'Martín dice que eres útil. Yo necesito verte a los ojos para decidir.' },
       { speaker: null, text: 'Raúl entra. Está más delgado que en las fotos. Pero sus ojos tienen el mismo fuego.' },
-      { speaker: 'Raúl', text: 'Perdí todo. Pero voy a recuperarlo. Y vos vas a ayudarme.' },
+      { speaker: 'Raúl', text: 'Perdí todo. Pero voy a recuperarlo. Y tú vas a ayudarme.' },
       { speaker: 'Raúl', text: 'El mundo no cambia por justicia. Cambia por conveniencia. Y en este momento, tu conveniencia soy yo.' },
       { speaker: null, text: 'El silencio se llena con el zumbido de la calle.' },
     ],
@@ -121,7 +121,7 @@ export const story = {
     scene: 'Día del Ataque — Puesto de Mando',
     lines: [
       { speaker: null, text: 'El día llega. Nubes de polvo naranja cubren la ciudad.' },
-      { speaker: 'Raúl', text: 'Hoy cambia todo. Y vos, {nombre}, vas a estar ahí.' },
+      { speaker: 'Raúl', text: 'Hoy cambia todo. Y tú, {nombre}, vas a estar ahí.' },
       { speaker: null, text: 'Martín te pone un arma en la mano. El metal está caliente.' },
       { speaker: 'Martín', text: '¿Vas al frente o te quedás atrás como los que no tienen sangre?' },
     ],
@@ -138,7 +138,7 @@ export const story = {
       { speaker: null, text: 'Los inhibidores fallan en el momento exacto. Las comunicaciones se cortan. El ataque se fragmenta.' },
       { speaker: 'María', text: 'Terminó. Todo terminó.' },
       { speaker: null, text: 'Raúl huye. La orden de arresto llega antes que él.' },
-      { speaker: null, text: 'María y vos desaparecen entre el smog. Nadie los busca. Nadie los encuentra.' },
+      { speaker: null, text: 'María y tú desaparecen entre el smog. Nadie los busca. Nadie los encuentra.' },
       { speaker: null, text: 'El golpe se deshizo. Y en el centro vacío de lo que no pasó, queda la certeza de que hicieron lo correcto.' },
     ],
     ending: true,
@@ -279,7 +279,7 @@ export const story = {
     ],
     choices: [
       { text: 'Ayudarla a escapar de la Zona', nextNode: 'C3_salvador', setFlags: { ayudar_maria: true } },
-      { text: 'Rechazarla — no podés cargar con ella', nextNode: 'C3_neutro', setFlags: { ayudar_maria: false } },
+      { text: 'Rechazarla — no puedes cargar con ella', nextNode: 'C3_neutro', setFlags: { ayudar_maria: false } },
     ],
   },
 
