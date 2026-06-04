@@ -41,7 +41,13 @@ export default class BootScene extends Phaser.Scene {
     this.load.audio('musica_juego', 'assets/audio/musica_juego.mp3');
   }
 
-  create() {
+  async create() {
+    try {
+      await document.fonts.load('44px "Planet Kosmos"');
+      await document.fonts.ready;
+    } catch (e) {
+      console.warn('Font load error:', e);
+    }
     this.scene.start('MenuScene');
   }
 }

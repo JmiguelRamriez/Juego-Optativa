@@ -191,7 +191,7 @@ export default class GameScene extends Phaser.Scene {
       this.bgImage.setVisible(false);
       this.bgRect.setFillStyle(bg, 1).setVisible(true);
     } else if (typeof bg === 'string' && this.textures.exists(bg)) {
-      this.bgImage.setTexture(bg).setVisible(true);
+      this.bgImage.setTexture(bg).setDisplaySize(1280, 720).setVisible(true);
       this.bgRect.setVisible(false);
     } else {
       this.bgImage.setVisible(false);
