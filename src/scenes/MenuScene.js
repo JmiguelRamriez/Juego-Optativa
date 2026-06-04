@@ -114,25 +114,29 @@ export default class MenuScene extends Phaser.Scene {
   }
 
   createGrain() {
-    const canvas = this.textures.createCanvas('menu_grain', 1280, 720);
-    const ctx = canvas.context;
-    for (let i = 0; i < 5000; i++) {
-      ctx.fillStyle = `rgba(196, 165, 116, ${Math.random() * 0.15})`;
-      ctx.fillRect(Math.random() * 1280, Math.random() * 720, 1, 1);
+    if (!this.textures.exists('menu_grain')) {
+      const canvas = this.textures.createCanvas('menu_grain', 1280, 720);
+      const ctx = canvas.context;
+      for (let i = 0; i < 5000; i++) {
+        ctx.fillStyle = `rgba(196, 165, 116, ${Math.random() * 0.15})`;
+        ctx.fillRect(Math.random() * 1280, Math.random() * 720, 1, 1);
+      }
+      canvas.refresh();
     }
-    canvas.refresh();
     this.add.image(640, 360, 'menu_grain').setAlpha(0.6);
   }
 
   createVignette() {
-    const c = this.textures.createCanvas('menu_vignette', 1280, 720);
-    const ctx = c.context;
-    const grd = ctx.createRadialGradient(640, 360, 250, 640, 360, 480);
-    grd.addColorStop(0, 'rgba(0,0,0,0)');
-    grd.addColorStop(1, 'rgba(0,0,0,0.6)');
-    ctx.fillStyle = grd;
-    ctx.fillRect(0, 0, 1280, 720);
-    c.refresh();
+    if (!this.textures.exists('menu_vignette')) {
+      const c = this.textures.createCanvas('menu_vignette', 1280, 720);
+      const ctx = c.context;
+      const grd = ctx.createRadialGradient(640, 360, 250, 640, 360, 480);
+      grd.addColorStop(0, 'rgba(0,0,0,0)');
+      grd.addColorStop(1, 'rgba(0,0,0,0.6)');
+      ctx.fillStyle = grd;
+      ctx.fillRect(0, 0, 1280, 720);
+      c.refresh();
+    }
     this.add.image(640, 360, 'menu_vignette');
   }
 
