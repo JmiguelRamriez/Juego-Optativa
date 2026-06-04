@@ -25,7 +25,7 @@ export default class MenuScene extends Phaser.Scene {
 
     const title = this.add.text(640, 160, 'Nueva Tenochtitl\u00E1n', {
       fontSize: '44px',
-      fontFamily: 'Courier New, monospace',
+      fontFamily: '"Planet Kosmos", "Courier New", monospace',
       color: '#c4a574',
     }).setOrigin(0.5);
 
