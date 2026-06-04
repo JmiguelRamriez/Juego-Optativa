@@ -12,7 +12,10 @@ export default class MenuScene extends Phaser.Scene {
   create() {
     this.cameras.main.fadeIn(500, 0, 0, 0);
 
-    this.add.rectangle(640, 360, 1280, 720, 0x1a1612);
+    if (this.textures.exists('menu_bg')) {
+      this.add.image(640, 360, 'menu_bg').setAlpha(0.7);
+    }
+    this.add.rectangle(640, 360, 1280, 720, 0x1a1612, 0.35);
 
     this.createGrain();
     this.createVignette();
@@ -20,7 +23,7 @@ export default class MenuScene extends Phaser.Scene {
 
     AudioManager.playMusic(this, 'musica_menu');
 
-    const title = this.add.text(640, 160, '[SIN TÍTULO]', {
+    const title = this.add.text(640, 160, 'Nueva Tenochtitl\u00E1n', {
       fontSize: '44px',
       fontFamily: 'Courier New, monospace',
       color: '#c4a574',

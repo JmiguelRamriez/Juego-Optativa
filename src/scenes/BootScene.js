@@ -35,6 +35,8 @@ export default class BootScene extends Phaser.Scene {
     this.load.image('char_maria', 'assets/characters/maria.png');
     this.load.image('char_agente', 'assets/characters/agente.png');
 
+    this.load.image('menu_bg', 'assets/menu_bg.png');
+
     this.load.audio('musica_menu', 'assets/audio/musica_menu.mp3');
     this.load.audio('musica_juego', 'assets/audio/musica_juego.mp3');
   }
