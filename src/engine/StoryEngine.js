@@ -4,6 +4,27 @@ import SaveManager from './SaveManager.js';
 export default class StoryEngine {
   constructor() {
     this.reset();
+    this._validateNodes();
+  }
+
+  _validateNodes() {
+    if (!story || !story.start) {
+      console.warn('[StoryEngine] No se encontr\u00F3 nodo start en la historia');
+      return;
+    }
+    const missing = new Set();
+    for (const [key, node] of Object.entries(story)) {
+      if (node.choices) {
+        for (const choice of node.choices) {
+          if (choice.nextNode && !story[choice.nextNode]) {
+            missing.add(choice.nextNode);
+          }
+        }
+      }
+    }
+    if (missing.size > 0) {
+      console.warn(`[StoryEngine] Nodos faltantes referenciados: ${[...missing].join(', ')}`);
+    }
   }
 
   reset() {

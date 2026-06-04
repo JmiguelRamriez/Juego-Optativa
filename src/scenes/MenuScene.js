@@ -77,6 +77,13 @@ export default class MenuScene extends Phaser.Scene {
       this.scene.start('GalleryScene');
     }, false, '#6ba3c9');
 
+    // ── empieza de cero ──────────────────────────
+    if (hasSave) {
+      this.createButton(640, 530, 'EMPEZAR DE CERO', () => {
+        this.showResetConfirm();
+      }, false, '#7a4a4a');
+    }
+
     this.add.text(640, 690, 'Hac\u00E9 clic para avanzar. Tus decisiones cambian la historia.', {
       fontSize: '10px',
       fontFamily: 'Arial, sans-serif',
@@ -185,6 +192,53 @@ export default class MenuScene extends Phaser.Scene {
     }
 
     return { bg, text };
+  }
+
+  showResetConfirm() {
+    const overlay = this.add.rectangle(640, 360, 1280, 720, 0x000000, 0.7).setDepth(100).setInteractive();
+    const box = this.add.rectangle(640, 360, 380, 160, 0x0a0a0a, 0.95).setStrokeStyle(1, 0x4a3a2a).setDepth(101);
+    const msg = this.add.text(640, 330, '\u00BFBorrar partida y empezar de cero?', {
+      fontSize: '12px',
+      fontFamily: 'Courier New, monospace',
+      color: '#c4a574',
+      align: 'center',
+    }).setOrigin(0.5).setDepth(102);
+    const sub = this.add.text(640, 355, 'Se perder\u00E1 el progreso guardado.', {
+      fontSize: '10px',
+      fontFamily: 'Arial, sans-serif',
+      color: '#7a4a4a',
+    }).setOrigin(0.5).setDepth(102);
+
+    const confirmBtn = this.add.rectangle(540, 410, 130, 36, 0x1a1a1a, 0.9)
+      .setStrokeStyle(1, 0x7a4a4a).setDepth(102).setInteractive({ useHandCursor: true });
+    const confirmTxt = this.add.text(540, 410, 'BORRAR', {
+      fontSize: '12px',
+      fontFamily: 'Courier New, monospace',
+      color: '#7a4a4a',
+    }).setOrigin(0.5).setDepth(103);
+
+    const cancelBtn = this.add.rectangle(740, 410, 130, 36, 0x1a1a1a, 0.9)
+      .setStrokeStyle(1, 0x3a3a3a).setDepth(102).setInteractive({ useHandCursor: true });
+    const cancelTxt = this.add.text(740, 410, 'CANCELAR', {
+      fontSize: '12px',
+      fontFamily: 'Courier New, monospace',
+      color: '#8a7a5c',
+    }).setOrigin(0.5).setDepth(103);
+
+    const destroy = () => {
+      overlay.destroy(); box.destroy(); msg.destroy(); sub.destroy();
+      confirmBtn.destroy(); confirmTxt.destroy(); cancelBtn.destroy(); cancelTxt.destroy();
+    };
+
+    confirmBtn.on('pointerup', () => {
+      AudioManager.stopMusic(this);
+      SaveManager.delete();
+      localStorage.removeItem('protagonist_name');
+      destroy();
+      this.scene.start('NameInputScene');
+    });
+    cancelBtn.on('pointerup', destroy);
+    overlay.on('pointerup', destroy);
   }
 
   loadGame() {

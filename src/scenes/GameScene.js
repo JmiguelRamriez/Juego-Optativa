@@ -39,6 +39,8 @@ export default class GameScene extends Phaser.Scene {
     this.node = this.engine.getNodeData();
     this.currentSpeaker = null;
     this.lastCharKey = null;
+    this.textSpeed = parseInt(localStorage.getItem('game_textSpeed') || '28', 10);
+    this.settingsOpen = false;
   }
 
   create() {
@@ -108,7 +110,7 @@ export default class GameScene extends Phaser.Scene {
       color: '#d4c8b8',
       wordWrap: { width: TEXT_W },
       lineSpacing: 5,
-    });
+    }).setShadow(2, 2, '#000000', 0.7, true, true);
 
     this.continueIndicator = this.add.text(1240, 680, '\u25BC', {
       fontSize: '14px',
@@ -128,24 +130,7 @@ export default class GameScene extends Phaser.Scene {
     this.skipBtn.on('pointerout', () => this.skipBtn.setAlpha(0.75));
     this.skipBtn.on('pointerup', () => this.skipDialogue());
 
-    this.saveBtn = this.add.text(1150, 8, '\u{1F4BE}', {
-      fontSize: '16px',
-      color: '#c4a574',
-    }).setOrigin(1, 0).setInteractive({ useHandCursor: true }).setAlpha(0.75);
-    this.saveBtn.on('pointerover', () => this.saveBtn.setAlpha(1));
-    this.saveBtn.on('pointerout', () => this.saveBtn.setAlpha(0.75));
-    this.saveBtn.on('pointerup', () => this.doSave());
-
-    this.menuBtn = this.add.text(1050, 8, 'MENU', {
-      fontSize: '11px',
-      fontFamily: 'Courier New, monospace',
-      color: '#c4a574',
-    }).setOrigin(1, 0).setInteractive({ useHandCursor: true }).setAlpha(0.75);
-    this.menuBtn.on('pointerover', () => this.menuBtn.setAlpha(1));
-    this.menuBtn.on('pointerout', () => this.menuBtn.setAlpha(0.75));
-    this.menuBtn.on('pointerup', () => this.goToMenu());
-
-    this.muteBtn = this.add.text(1240, 8, '', {
+    this.muteBtn = this.add.text(1150, 8, '', {
       fontSize: '16px',
     }).setOrigin(1, 0).setInteractive({ useHandCursor: true }).setAlpha(0.75);
     this.updateMuteBtn();
@@ -158,6 +143,31 @@ export default class GameScene extends Phaser.Scene {
       this.updateMuteBtn();
     });
 
+    this.saveBtn = this.add.text(1110, 8, '\u{1F4BE}', {
+      fontSize: '16px',
+      color: '#c4a574',
+    }).setOrigin(1, 0).setInteractive({ useHandCursor: true }).setAlpha(0.75);
+    this.saveBtn.on('pointerover', () => this.saveBtn.setAlpha(1));
+    this.saveBtn.on('pointerout', () => this.saveBtn.setAlpha(0.75));
+    this.saveBtn.on('pointerup', () => this.doSave());
+
+    this.menuBtn = this.add.text(140, 8, 'MENU', {
+      fontSize: '11px',
+      fontFamily: 'Courier New, monospace',
+      color: '#c4a574',
+    }).setOrigin(1, 0).setInteractive({ useHandCursor: true }).setAlpha(0.75);
+    this.menuBtn.on('pointerover', () => this.menuBtn.setAlpha(1));
+    this.menuBtn.on('pointerout', () => this.menuBtn.setAlpha(0.75));
+    this.menuBtn.on('pointerup', () => this.goToMenu());
+
+    this.settingsBtn = this.add.text(80, 8, '\u2699', {
+      fontSize: '16px',
+      color: '#c4a574',
+    }).setOrigin(1, 0).setInteractive({ useHandCursor: true }).setAlpha(0.75).setDepth(120);
+    this.settingsBtn.on('pointerover', () => this.settingsBtn.setAlpha(1));
+    this.settingsBtn.on('pointerout', () => this.settingsBtn.setAlpha(0.75));
+    this.settingsBtn.on('pointerup', () => this.toggleSettings());
+
     this.routeLabel = this.add.text(35, 710, '', {
       fontSize: '10px',
       fontFamily: 'Courier New, monospace',
@@ -169,6 +179,68 @@ export default class GameScene extends Phaser.Scene {
       fontFamily: 'Courier New, monospace',
       color: '#8a7a5c',
     }).setOrigin(0.5).setAlpha(0);
+
+    // ── settings panel (initially hidden) ──────
+    this.settingsOverlay = this.add.rectangle(640, 360, 1280, 720, 0x000000, 0.6).setDepth(200).setVisible(false).setInteractive();
+    this.settingsOverlay.on('pointerdown', () => this.toggleSettings());
+    this.settingsPanel = this.add.rectangle(640, 360, 420, 340, 0x0a0a0a, 0.95).setStrokeStyle(1, 0x4a3a2a).setDepth(201).setVisible(false);
+    this.settingsTitle = this.add.text(640, 210, 'AJUSTES', {
+      fontSize: '14px',
+      fontFamily: 'Courier New, monospace',
+      color: '#c4a574',
+    }).setOrigin(0.5).setDepth(202).setVisible(false);
+
+    // text speed
+    this.speedLabel = this.add.text(640, 260, 'VELOCIDAD TEXTO', {
+      fontSize: '11px',
+      fontFamily: 'Courier New, monospace',
+      color: '#6b5a4a',
+    }).setOrigin(0.5).setDepth(202).setVisible(false);
+
+    const speeds = [
+      { label: 'LENTO', val: 42 },
+      { label: 'NORMAL', val: 28 },
+      { label: 'R\u00C1PIDO', val: 14 },
+    ];
+    this.speedBtns = [];
+    speeds.forEach((sp, i) => {
+      const x = 640 + (i - 1) * 110;
+      const isActive = sp.val === this.textSpeed;
+      const bg = this.add.rectangle(x, 300, 90, 30, isActive ? 0x1a3a1a : 0x1a1a1a, 0.9)
+        .setStrokeStyle(1, isActive ? 0x6ba3c9 : 0x3a3a3a)
+        .setDepth(202).setVisible(false).setInteractive({ useHandCursor: true });
+      const txt = this.add.text(x, 300, sp.label, {
+        fontSize: '11px',
+        fontFamily: 'Courier New, monospace',
+        color: isActive ? '#8fbc8f' : '#8a7a5c',
+      }).setOrigin(0.5).setDepth(203).setVisible(false);
+      bg.on('pointerup', () => this.setSpeed(sp.val));
+      this.speedBtns.push({ bg, txt, val: sp.val });
+    });
+
+    // close button
+    this.closeSettingsBtn = this.add.text(640, 480, 'CERRAR', {
+      fontSize: '12px',
+      fontFamily: 'Courier New, monospace',
+      color: '#7a6a4a',
+    }).setOrigin(0.5).setDepth(202).setVisible(false).setInteractive({ useHandCursor: true });
+    this.closeSettingsBtn.on('pointerover', () => this.closeSettingsBtn.setColor('#c4a574'));
+    this.closeSettingsBtn.on('pointerout', () => this.closeSettingsBtn.setColor('#7a6a4a'));
+    this.closeSettingsBtn.on('pointerup', () => this.toggleSettings());
+
+    // ── keyboard support for choices ────────────
+    this.input.keyboard.on('keydown', (event) => {
+      if (event.key === 'Escape' && this.settingsOpen) {
+        this.toggleSettings();
+        return;
+      }
+      if (this.settingsOpen) return;
+      if (!this.showingChoices) return;
+      const idx = parseInt(event.key, 10) - 1;
+      if (idx >= 0 && idx < this.choiceButtons.length) {
+        this.onChoice(idx);
+      }
+    });
 
     this.loadNode();
 
@@ -232,8 +304,20 @@ export default class GameScene extends Phaser.Scene {
     const boxTop = BOX_BOTTOM - targetH;
 
     this.dialogueText.setY(boxTop + BOX_PAD_TOP);
-    this.nameBox.setY(boxTop + NAME_PAD_TOP + 12);
-    this.nameText.setY(boxTop + NAME_PAD_TOP + 5);
+    this.tweens.killTweensOf(this.nameBox);
+    this.tweens.killTweensOf(this.nameText);
+    this.tweens.add({
+      targets: this.nameBox,
+      y: boxTop + NAME_PAD_TOP + 12,
+      duration: 200,
+      ease: 'Sine.easeInOut',
+    });
+    this.tweens.add({
+      targets: this.nameText,
+      y: boxTop + NAME_PAD_TOP + 5,
+      duration: 200,
+      ease: 'Sine.easeInOut',
+    });
 
     this.tweens.killTweensOf(this.dialogueBox);
     this.tweens.add({
@@ -246,6 +330,9 @@ export default class GameScene extends Phaser.Scene {
   }
 
   loadNode() {
+    if (this.typewriterEvent) { this.typewriterEvent.remove(); this.typewriterEvent = null; }
+    if (this.continueTween) { this.continueTween.remove(); this.continueTween = null; }
+    this.continueIndicator.setAlpha(0);
     this.node = this.engine.getNodeData();
     if (!this.node) {
       this.scene.start('MenuScene');
@@ -300,12 +387,26 @@ export default class GameScene extends Phaser.Scene {
       const ch = characters[speaker];
       this.nameText.setText(ch.label).setColor(ch.color);
       const nameWidth = Math.max(this.nameText.width + 30, 110);
-      this.nameBox.setSize(nameWidth, 22).setFillStyle(0x0a0a0a, 0.9).setVisible(true);
-      this.nameBox.setX(NAME_X + nameWidth / 2);
-      this.nameText.setX(NAME_X + 15).setVisible(true);
+      const newBoxX = NAME_X + nameWidth / 2;
+      const newTextX = newBoxX - nameWidth / 2 + 15;
+      this.nameBox.setSize(nameWidth, 22).setFillStyle(0x0a0a0a, 0.9);
+      this.tweens.killTweensOf(this.nameBox);
+      this.tweens.killTweensOf(this.nameText);
+      this.tweens.add({ targets: this.nameBox, x: newBoxX, duration: 150, ease: 'Sine.easeInOut' });
+      this.nameText.setX(newTextX);
+      if (!this.nameBox.visible) {
+        this.nameBox.setAlpha(0).setVisible(true);
+        this.nameText.setAlpha(0).setVisible(true);
+        this.tweens.add({ targets: [this.nameBox, this.nameText], alpha: 1, duration: 200 });
+      }
     } else {
-      this.nameText.setVisible(false);
-      this.nameBox.setVisible(false);
+      if (this.nameBox.visible) {
+        this.tweens.killTweensOf(this.nameBox);
+        this.tweens.killTweensOf(this.nameText);
+        this.tweens.add({ targets: [this.nameBox, this.nameText], alpha: 0, duration: 150,
+          onComplete: () => { this.nameBox.setVisible(false); this.nameText.setVisible(false); }
+        });
+      }
     }
 
     const formattedText = this.engine.formatLine(line.text);
@@ -338,7 +439,7 @@ export default class GameScene extends Phaser.Scene {
 
     let i = 0;
     this.typewriterEvent = this.time.addEvent({
-      delay: 28,
+      delay: this.textSpeed,
       callback: () => {
         i++;
         this.dialogueText.setText(fullText.substring(0, i));
@@ -491,7 +592,8 @@ export default class GameScene extends Phaser.Scene {
   }
 
   onChoice(index) {
-    if (this.transitioning) return;
+    if (this.transitioning || !this.showingChoices) return;
+    this.showingChoices = false;
 
     const choice = this.node.choices[index];
 
@@ -537,15 +639,38 @@ export default class GameScene extends Phaser.Scene {
   doSave() {
     const saved = this.engine.manualSave();
     if (saved) {
-      this.savedLabel.setText('\u2713 GUARDADO').setAlpha(1).setColor('#8a7a5c');
+      this.savedLabel.setText('\u2713 GUARDADO').setAlpha(1).setColor('#8fbc8f').setFontSize('14px');
     } else {
-      this.savedLabel.setText('\u2717 ERROR').setAlpha(1).setColor('#7a4a4a');
+      this.savedLabel.setText('\u2717 ERROR').setAlpha(1).setColor('#7a4a4a').setFontSize('14px');
     }
     this.tweens.add({
       targets: this.savedLabel,
       alpha: 0,
-      duration: 800,
-      delay: 1500,
+      duration: 1000,
+      delay: 2000,
+    });
+  }
+
+  toggleSettings() {
+    this.settingsOpen = !this.settingsOpen;
+    const vis = this.settingsOpen;
+    this.settingsOverlay.setVisible(vis);
+    this.settingsPanel.setVisible(vis);
+    this.settingsTitle.setVisible(vis);
+    this.speedLabel.setVisible(vis);
+    this.speedBtns.forEach(s => { s.bg.setVisible(vis); s.txt.setVisible(vis); });
+    this.closeSettingsBtn.setVisible(vis);
+    this.settingsOverlay.setDepth(vis ? 200 : -1);
+  }
+
+  setSpeed(val) {
+    this.textSpeed = val;
+    localStorage.setItem('game_textSpeed', String(val));
+    this.speedBtns.forEach(s => {
+      const active = s.val === val;
+      s.bg.setFillStyle(active ? 0x1a3a1a : 0x1a1a1a, 0.9);
+      s.bg.setStrokeStyle(1, active ? 0x6ba3c9 : 0x3a3a3a);
+      s.txt.setColor(active ? '#8fbc8f' : '#8a7a5c');
     });
   }
 
