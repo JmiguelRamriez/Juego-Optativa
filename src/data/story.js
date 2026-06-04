@@ -123,7 +123,7 @@ export const story = {
       { speaker: null, text: 'El día llega. Nubes de polvo naranja cubren la ciudad.' },
       { speaker: 'Raúl', text: 'Hoy cambia todo. Y tú, {nombre}, vas a estar ahí.' },
       { speaker: null, text: 'Martín te pone un arma en la mano. El metal está caliente.' },
-      { speaker: 'Martín', text: '¿Vas al frente o te quedás atrás como los que no tienen sangre?' },
+      { speaker: 'Martín', text: '¿Vas al frente o te quedas atrás como los que no tienen sangre?' },
     ],
     choices: [
       { text: 'Ir al frente con Martín', nextNode: 'A4_traicion', setFlags: { ir_frente: true } },
@@ -165,7 +165,7 @@ export const story = {
     lines: [
       { speaker: null, text: 'Desde la retaguardia ves todo: las órdenes, los códigos, las mentiras.' },
       { speaker: null, text: 'El golpe funciona. Y cuando el polvo se asienta, un mensaje llega.' },
-      { speaker: null, text: '"Te necesito del otro lado. Elegí bien." — Mateo.' },
+      { speaker: null, text: '"Te necesito del otro lado. Elige bien." — Mateo.' },
       { speaker: null, text: 'El pase a Nueva Tenochtitlán está sobre la mesa. Pesado. Cálido.' },
     ],
     ending: true,
@@ -183,7 +183,7 @@ export const story = {
       { speaker: 'Agente', text: 'Raúl Vargas es una sombra. Pero las sombras también matan.' },
       { speaker: null, text: 'Pone un objeto sobre la mesa. Un libro viejo, encuadernado en cuero gastado.' },
       { speaker: 'Agente', text: 'Libro Lector de Verdades. No falla. No negocia. Te dice todo lo que Raúl oculta.' },
-      { speaker: 'Agente', text: 'A cambio: nombres, fechas, coordenadas. Todo lo que tenés.' },
+      { speaker: 'Agente', text: 'A cambio: nombres, fechas, coordenadas. Todo lo que tienes.' },
       { speaker: null, text: 'El libro te mira desde la mesa.' },
     ],
     choices: [
@@ -195,7 +195,7 @@ export const story = {
     bg: 'bg_almacen',
     scene: 'Zona Costera — Entre Sombras',
     lines: [
-      { speaker: null, text: 'Tenés el libro. Tenés el plan. Solo falta la prueba.' },
+      { speaker: null, text: 'Tienes el libro. Tienes el plan. Solo falta la prueba.' },
       { speaker: null, text: 'Raúl se mueve entre departamentos viejos y reuniones en la oscuridad.' },
       { speaker: null, text: 'Dos caminos: el libro si lo enfrentás cara a cara. O los registros de los inhibidores.' },
     ],

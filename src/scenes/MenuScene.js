@@ -23,8 +23,8 @@ export default class MenuScene extends Phaser.Scene {
 
     AudioManager.playMusic(this, 'musica_menu');
 
-    const title = this.add.text(640, 155, 'Nueva Tenochtitl\u00E1n', {
-      fontSize: '56px',
+    const title = this.add.text(640, 145, 'Nueva Tenochtitl\u00E1n', {
+      fontSize: '68px',
       fontFamily: '"Planet Kosmos", "Courier New", monospace',
       color: '#c4a574',
     }).setOrigin(0.5);
